@@ -366,8 +366,9 @@ public class BillboardsPlugin extends JavaPlugin implements Listener {
 			int durationInDays = signSection.getInt("duration", defaultDurationInDays);
 			int price = signSection.getInt("price", defaultPrice);
 			long startTime = signSection.getLong("start-time", 0L);
+			String commandBind = signSection.getString("command");
 
-			BillboardSign billboard = new BillboardSign(signLocation, creatorUUID, creatorName, ownerUUID, ownerName, durationInDays, price, startTime);
+			BillboardSign billboard = new BillboardSign(signLocation, creatorUUID, creatorName, ownerUUID, ownerName, durationInDays, price, startTime, commandBind);
 			this.addBillboard(billboard);
 		}
 	}
@@ -384,6 +385,11 @@ public class BillboardsPlugin extends JavaPlugin implements Listener {
 			signsData.set(node + ".duration", billboard.getDurationInDays());
 			signsData.set(node + ".price", billboard.getPrice());
 			signsData.set(node + ".start-time", billboard.getStartTime());
+			if (billboard.getCommandBind() == null) {
+				signsData.set(node + ".command", "null");
+			} else {
+				signsData.set(node + ".command", billboard.getCommandBind());
+			}
 		}
 
 		// save signs data to file:

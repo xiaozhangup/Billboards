@@ -20,16 +20,19 @@ public class BillboardSign {
 	private int price;
 	private long startTime;
 
+	private String commandBind;
+
 	private boolean valid = false;
 
 	// shortcut: used when creating a new billboard, creator is null if owned by the server
-	public BillboardSign(SoftBlockLocation location, Player creator, int durationInDays, int price) {
-		this(location, (creator != null ? creator.getUniqueId() : null), (creator != null ? creator.getName() : null), null, null, durationInDays, price, 0);
+	public BillboardSign(SoftBlockLocation location, Player creator, int durationInDays, int price , String commandBind) {
+		this(location, (creator != null ? creator.getUniqueId() : null), (creator != null ? creator.getName() : null), null, null, durationInDays, price, 0 , commandBind);
 	}
 
 	// full: used when loading billboards
 	public BillboardSign(	SoftBlockLocation location, UUID creatorUUID, String lastKnownCreatorName,
-							UUID ownerUUID, String lastKnownOwnerName, int durationInDays, int price, long startTime) {
+							UUID ownerUUID, String lastKnownOwnerName, int durationInDays, int price, long startTime,
+							 String commandBind) {
 		Validate.notNull(location, "Location is null!");
 		this.location = location;
 		if (creatorUUID == null) {
@@ -46,6 +49,7 @@ public class BillboardSign {
 		this.durationInDays = durationInDays;
 		this.price = price;
 		this.startTime = startTime;
+		this.commandBind = commandBind;
 	}
 
 	public boolean isValid() {
@@ -74,6 +78,10 @@ public class BillboardSign {
 
 	public boolean isCreator(UUID playerUUID) {
 		return playerUUID != null && playerUUID.equals(creatorUUID);
+	}
+
+	public boolean hasCommand() {
+		return (commandBind == null);
 	}
 
 	// can return null!
@@ -155,6 +163,18 @@ public class BillboardSign {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public void setCommandBind(String s) {
+		this.commandBind = s;
+	}
+
+	public String getCommandBind() {
+		if (this.commandBind == "null") {
+			return null;
+		} else {
+			return this.commandBind;
+		}
 	}
 
 	public long getStartTime() {

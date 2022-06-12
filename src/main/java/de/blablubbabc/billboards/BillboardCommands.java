@@ -57,9 +57,10 @@ public class BillboardCommands implements CommandExecutor {
 		// create new billboard:
 		int duration = plugin.defaultDurationInDays;
 		int price = plugin.defaultPrice;
+		String bindcommand = null;
 
 		// /billboard [<price> <duration>] [creator]
-		if (args.length >= 2) {
+		if (args.length >= 3) {
 			Integer priceArgument = Utils.parseInteger(args[0]);
 			if (priceArgument == null) {
 				player.sendMessage(Messages.getMessage(Message.INVALID_NUMBER, args[0]));
@@ -69,6 +70,11 @@ public class BillboardCommands implements CommandExecutor {
 			if (durationArgument == null) {
 				player.sendMessage(Messages.getMessage(Message.INVALID_NUMBER, args[1]));
 				return true;
+			}
+			if (args[2] != null) {
+				for ( int i = 2 ; args[i] != null ; i++ ) {
+					command =
+				}
 			}
 			price = priceArgument.intValue();
 			duration = durationArgument.intValue();
@@ -90,7 +96,7 @@ public class BillboardCommands implements CommandExecutor {
 		}
 
 		// add and setup billboard sign:
-		BillboardSign billboard = new BillboardSign(blockLocation, creator, duration, price);
+		BillboardSign billboard = new BillboardSign(blockLocation, creator, duration, price , bindcommand);
 		plugin.addBillboard(billboard);
 		plugin.refreshSign(billboard);
 		plugin.saveBillboards();

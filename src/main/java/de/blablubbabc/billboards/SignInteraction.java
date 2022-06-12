@@ -77,7 +77,12 @@ public class SignInteraction implements Listener {
 			// check if it's still available:
 			if (billboard.hasOwner()) {
 				// no longer available:
+				if (billboard.hasCommand()) {
+					Bukkit.dispatchCommand(player , billboard.getCommandBind());
+					return;
+				}
 				player.sendMessage(Messages.getMessage(Message.NO_LONGER_AVAILABLE));
+				//TODO to add command
 				return;
 			}
 
